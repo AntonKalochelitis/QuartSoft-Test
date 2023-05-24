@@ -1,0 +1,114 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "QuartSoft API",
+        "contact": {
+            "email": "fire.anton@gmail.com"
+        },
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "summary": "Sign in",
+                "description": "Login by email, password",
+                "operationId": "dd51a484b7fa0f97c7680fdbde14cf5f",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json; Content-Type:multipart/form-data"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "summary": "Sign up",
+                "description": "SingUP by nickname, email, password, password_confirmation",
+                "operationId": "c7bb21a0d87049e161b8e4c9b0d909f2",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json; Content-Type:multipart/form-data"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nickname": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "testuser1"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        }
+    }
+}
