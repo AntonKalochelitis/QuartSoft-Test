@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "QuartSoft API",
+        "title": "Test Anton Kalochelitis API",
         "contact": {
             "email": "fire.anton@gmail.com"
         },
@@ -103,6 +103,30 @@
                         }
                     }
                 },
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/auth/confirm/email": {
+            "post": {
+                "summary": "Email confirmation after registration",
+                "description": "Confirmation after registration by token",
+                "operationId": "12aba86038ef1c5e0fd187d2f4d33f2b",
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "summary": "Sign out",
+                "description": "Logout by token",
+                "operationId": "df9bdc6c7a6d9f20b983526b2ec0f698",
                 "responses": {
                     "200": {
                         "description": "Success response"

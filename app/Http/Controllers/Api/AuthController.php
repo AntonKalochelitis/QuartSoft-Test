@@ -6,14 +6,17 @@ use App\Http\Controllers\ApiController;
 use App\Enums\TokenNamesEnum;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\СonfirmEmailRequest;
 use App\Http\Resources\Auth\LoginResource;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class AuthController extends ApiController
 {
@@ -107,6 +110,46 @@ class AuthController extends ApiController
     }
 
     /**
+     * @OA\Post(
+     *  path="/api/auth/confirm/email",
+     *  summary="Email confirmation after registration",
+     *  description="Confirmation after registration by token",
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     */
+    public function confirmEmail(СonfirmEmailRequest $request)
+    {
+        $request->validated();
+
+        /** @var User $user */
+        $user = User::where('email_token', $request->token)->firstOrFail();
+
+        if ($user->email_verified_at) {
+            throw new UnprocessableEntityHttpException(__('auth.email_already_confirmed'));
+        }
+
+        $user->update([
+            'email_verified_at' => Carbon::now()
+        ]);
+
+        return $this->response();
+    }
+
+
+    /**
+     * @OA\Post(
+     *  path="/api/auth/logout",
+     *  summary="Sign out",
+     *  description="Logout by token",
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
      * @param Request $request
      * @return JsonResponse
      */
