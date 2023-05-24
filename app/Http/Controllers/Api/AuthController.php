@@ -114,6 +114,19 @@ class AuthController extends ApiController
      *  path="/api/auth/confirm/email",
      *  summary="Email confirmation after registration",
      *  description="Confirmation after registration by token",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json; Content-Type:multipart/form-data",
+     *  ),
+     *  @OA\RequestBody(
+     *      required=true,
+     *      description="Pass user credentials",
+     *      @OA\JsonContent(
+     *          required={"token"},
+     *          @OA\Property(property="token", type="string", format="string", example="asdfasdfasd"),
+     *      ),
+     *  ),
      *  @OA\Response(
      *    response="200",
      *    description="Success response"
@@ -122,28 +135,37 @@ class AuthController extends ApiController
      */
     public function confirmEmail(СonfirmEmailRequest $request)
     {
-        $request->validated();
+        try {
+            $request->validated();
 
-        /** @var User $user */
-        $user = User::where('email_token', $request->token)->firstOrFail();
+            /** @var User $user */
+            $user = User::where('email_token', $request->token)->firstOrFail();
 
-        if ($user->email_verified_at) {
-            throw new UnprocessableEntityHttpException(__('auth.email_already_confirmed'));
+            if ($user->email_verified_at) {
+                throw new UnprocessableEntityHttpException(__('auth.email_already_confirmed'));
+            }
+
+            $user->update([
+                'email_token' => '',
+                'email_verified_at' => Carbon::now()
+            ]);
+
+            return $this->response();
+        } catch (\Exception $e) {
+            throw new UnprocessableEntityHttpException(__('auth.' . 'no_found_user'));
         }
-
-        $user->update([
-            'email_verified_at' => Carbon::now()
-        ]);
-
-        return $this->response();
     }
-
 
     /**
      * @OA\Post(
      *  path="/api/auth/logout",
      *  summary="Sign out",
      *  description="Logout by token",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
      *  @OA\Response(
      *    response="200",
      *    description="Success response"
