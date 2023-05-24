@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @OA\Info(
- *     title="QuartSoft API",
+ *     title="Test Anton Kalochelitis API",
  *     version="0.1",
  *     @OA\Contact(
  *          email="fire.anton@gmail.com"

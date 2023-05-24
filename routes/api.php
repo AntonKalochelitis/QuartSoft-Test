@@ -26,6 +26,9 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('register', [AuthController::class, 'register'])
         ->name('auth/register');
 
+    Route::post('/confirm/email', [AuthController::class, 'confirmEmail'])
+        ->name('auth/confirm/email');
+
     Route::post('logout', [AuthController::class, 'logout'])
         ->middleware(['auth:sanctum'])
         ->name('auth/logout');

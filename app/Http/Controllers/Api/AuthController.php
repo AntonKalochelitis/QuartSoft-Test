@@ -105,4 +105,9 @@ class AuthController extends ApiController
             throw $exception;
         }
     }
+
+    public function logout():JsonResponse
+    {
+
+    }
 }
