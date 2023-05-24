@@ -106,8 +106,14 @@ class AuthController extends ApiController
         }
     }
 
-    public function logout():JsonResponse
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
     {
+        $request->user()->tokens()->delete();
 
+        return $this->response();
     }
 }
