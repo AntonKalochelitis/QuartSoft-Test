@@ -8,6 +8,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\СonfirmEmailRequest;
 use App\Http\Resources\Auth\LoginResource;
+use App\Mail\ConfirmRegisteredEmail;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -93,11 +94,11 @@ class AuthController extends ApiController
                 'email_token' => Str::random(64),
             ]);
 
-//            Mail::to($user->email)->send(
-//                new ConfirmRegisteredEmail(
-//                    $user->email_token
-//                )
-//            );
+            Mail::to($user->email)->send(
+                new ConfirmRegisteredEmail(
+                    $user->email_token
+                )
+            );
 
             DB::commit();
 
@@ -136,7 +137,9 @@ class AuthController extends ApiController
     public function confirmEmail(СonfirmEmailRequest $request)
     {
         try {
-            $request->validated();
+            if (!$request->validated()) {
+                throw new UnprocessableEntityHttpException(__('auth.request_not_validate'));
+            }
 
             /** @var User $user */
             $user = User::where('email_token', $request->token)->firstOrFail();
