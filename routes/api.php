@@ -30,6 +30,12 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/confirm/email', [AuthController::class, 'confirmEmail'])
         ->name('auth/confirm/email');
 
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+        ->name('auth/reset-password');
+
+    Route::post('/reset-password-by-token', [AuthController::class, 'resetPasswordByToken'])
+        ->name('auth/reset-password-by-token');;
+
     Route::post('logout', [AuthController::class, 'logout'])
         ->middleware(['auth:sanctum'])
         ->name('auth/logout');

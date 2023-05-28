@@ -6,9 +6,13 @@ use App\Http\Controllers\ApiController;
 use App\Enums\TokenNamesEnum;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordByTokenRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\СonfirmEmailRequest;
 use App\Http\Resources\Auth\LoginResource;
 use App\Mail\ConfirmRegisteredEmail;
+use App\Mail\ResetPasswordEmail;
+use App\Models\PasswordResetTokens;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -156,6 +160,122 @@ class AuthController extends ApiController
             return $this->response();
         } catch (\Exception $e) {
             throw new UnprocessableEntityHttpException(__('auth.' . 'no_found_user'));
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *  path="/api/auth/reset-password",
+     *  summary="Reset password",
+     *  description="Reset forgot password",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\RequestBody(
+     *      required=true,
+     *      description="Pass user credentials",
+     *      @OA\JsonContent(
+     *          required={"email"},
+     *          @OA\Property(property="email", type="string", format="string", example="user1@mail.com"),
+     *      ),
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
+     * @param ResetPasswordRequest $request
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
+    {
+        try {
+            $token = Str::random(64);
+
+            PasswordResetTokens::where('email', $request->email)
+                ->delete();
+
+            PasswordResetTokens::create([
+                'email' => $request->email,
+                'token' => $token,
+                'created_at' => Carbon::now()
+            ]);
+
+            Mail::to($request->email)->send(
+                new ResetPasswordEmail($token)
+            );
+
+            DB::commit();
+            return $this->response();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *  path="/api/auth/reset-password-by-token",
+     *  summary="Update Reset password by token",
+     *  description="Update Reset password by token if you forgot password",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\RequestBody(
+     *      required=true,
+     *      description="Pass user credentials",
+     *      @OA\JsonContent(
+     *          required={"email", "token", "password"},
+     *          @OA\Property(property="email", type="string", format="string", example="user1@mail.com"),
+     *          @OA\Property(property="token", type="string", format="string", example="asdfasdfasasdf"),
+     *          @OA\Property(property="password", type="string", format="string", example="Password123"),
+     *      ),
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
+     * @param ResetPasswordByTokenRequest $request
+     * @return JsonResponse
+     */
+    public function resetPasswordByToken(ResetPasswordByTokenRequest $request): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $isResetRecordExists = PasswordResetTokens::where([
+                'email' => $request->email,
+                'token' => $request->token
+            ])->exists();
+
+            if (!$isResetRecordExists) {
+                throw new UnprocessableEntityHttpException(__('auth.invalid-token-or-email'));
+            }
+
+            // Find user and update his password
+            $user = User::where('email', $request->input('email'))->firstOrFail();
+            $user->update([
+                'password' => Hash::make($request->input('password'))
+            ]);
+
+            // Remove unused records of password reset in database
+            PasswordResetTokens::where([
+                'email' => $request->email,
+                'token' => $request->token
+            ])->delete();
+
+            DB::commit();
+            return $this->response();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
         }
     }
 

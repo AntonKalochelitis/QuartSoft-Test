@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->fullText('content');
             $table->boolean('is_published')->default(0);
-            $table->dateTime('')->nullable();
+            $table->dateTime('datetime_published')->nullable();
             $table->boolean('active')->default(1);
             $table->timestamps();
 

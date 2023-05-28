@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ConfirmRegisteredEmail extends Mailable
+class ResetPasswordEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,10 +30,10 @@ class ConfirmRegisteredEmail extends Mailable
      */
     public function build()
     {
-        $url = env('APP_FRONTEND_URL', '') . 'confirm-email/' . $this->token;
+        $url = env('APP_FRONTEND_URL', '') . 'reset-password/' . $this->token;
 
-        return $this->subject(env('APP_NAME', '') . ' | Email confirmation')
-            ->markdown('emails.confirm_registered_email', [
+        return $this->subject(env('APP_NAME', '') . ' | Reset Password')
+            ->markdown('emails.reset_password', [
                 'url' => $url
             ]);
     }

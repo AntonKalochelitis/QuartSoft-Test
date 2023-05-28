@@ -150,6 +150,46 @@
                 }
             }
         },
+        "/api/auth/reset-password": {
+            "post": {
+                "summary": "Reset password",
+                "description": "Reset forgot password",
+                "operationId": "96e44e1ebcd811418fd95ee4c56162f0",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "user1@mail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
         "/api/auth/logout": {
             "post": {
                 "summary": "Sign out",
