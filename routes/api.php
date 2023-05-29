@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\PaymentController;
 
 /*
@@ -42,10 +44,52 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('list', [AdminController::class, 'showAdminList'])
+            ->name('admin/list');
 
+        Route::put('add', [AdminController::class, 'addToAdminList'])
+            ->name('admin/add');
 
-    Route::get('/payment/system/list', [PaymentController::class, 'showSystemList'])
-        ->name('/payment/system/list');
+        Route::delete('delete', [AdminController::class, 'deleteFromAdminList'])
+            ->name('admin/delete');
 
+        Route::get('subscription/list', [AdminController::class, 'showSubscriptionList'])
+            ->name('admin/subscription/list');
 
+        Route::put('subscription/add', [AdminController::class, 'addToSubscriptionList'])
+            ->name('admin/subscription/add');
+
+        Route::post('subscription/edit', [AdminController::class, 'editSubscription'])
+            ->name('admin/subscription/edit');
+
+        Route::delete('subscription/delete', [AdminController::class, 'deleteFromSubscriptionList'])
+            ->name('admin/subscription/delete');
+    });
+
+    Route::group(['prefix' => 'post'], function () {
+        Route::put('publish', [PostController::class, 'publish'])
+            ->name('post/publish');
+        Route::post('unpublish', [PostController::class, 'unpublish'])
+            ->name('post/unpublish');
+        Route::delete('delete-publish', [PostController::class, 'deletePublish'])
+            ->name('post/delete-publish');
+    });
+
+    Route::group(['prefix' => 'payment'], function () {
+        Route::get('system/list', [PaymentController::class, 'showSystemList'])
+            ->name('payment/system/list');
+
+        Route::put('subscription/buy', [PaymentController::class, 'subscriptionBuy'])
+            ->name('payment/subscription/buy');
+
+        Route::get('subscription/show', [PaymentController::class, 'subscriptionShow'])
+            ->name('payment/subscription/show');
+
+//        Route::post('subscription/buy', [PaymentController::class, 'subscriptionBuy'])
+//            ->name('payment/subscription/buy');
+
+        Route::post('subscription/cancel', [PaymentController::class, 'subscriptionCancel'])
+            ->name('payment/subscription/cancel');
+    });
 });

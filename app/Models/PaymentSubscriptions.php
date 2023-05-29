@@ -7,27 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer id
- * @property string name
- * @property string setting
- * @property boolean active
+ * @property integer subscription_id
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at
  */
-class PaymentSystem extends Model
+class PaymentSubscriptions extends Model
 {
-    public const ACTIVE = 1;
-    public const NOACTIVE = 0;
-
     use HasFactory;
 
     protected $fillable = [
         'id',
-        'name',
-        'setting',
-        'active',
+        'subscription_id',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 }

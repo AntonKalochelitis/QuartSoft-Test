@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->fullText('content');
+            $table->longText('content');
             $table->boolean('is_published')->default(0);
             $table->dateTime('datetime_published')->nullable();
             $table->boolean('active')->default(1);

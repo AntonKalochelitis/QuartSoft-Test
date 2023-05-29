@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->decimal('price')->nullable();
             $table->integer('available_publication')->default(0);
             $table->boolean('active')->default(1);
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 
