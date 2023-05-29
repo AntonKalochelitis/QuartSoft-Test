@@ -4,6 +4,9 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property int user_admin_id
+ */
 class AddToAdminListRequest extends FormRequest
 {
     /**
@@ -11,7 +14,7 @@ class AddToAdminListRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +25,7 @@ class AddToAdminListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_admin_id' => 'required|integer|min:1',
         ];
     }
 }

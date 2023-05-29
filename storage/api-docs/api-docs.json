@@ -8,6 +8,160 @@
         "version": "0.1"
     },
     "paths": {
+        "/api/admin/list": {
+            "get": {
+                "summary": "Admin users list",
+                "description": "Admin users list",
+                "operationId": "fac73f2bade9c383bb40bc2a16c7204d",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/admin/delete": {
+            "delete": {
+                "summary": "Payment system list",
+                "description": "Payment system list",
+                "operationId": "0ac954fef576a42938d16b15c240eb62",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/admin/subscription/list": {
+            "get": {
+                "summary": "Get subscription list",
+                "description": "Get subscription list",
+                "operationId": "0be0c8c1320e776e2772c7a8e9c41081",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/admin/add": {
+            "post": {
+                "summary": "Add user to admin list",
+                "description": "Add user to admin list",
+                "operationId": "57e719e3da4b33e0f89a88e5d4872365",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_admin_id"
+                                ],
+                                "properties": {
+                                    "user_admin_id": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": "11"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/admin/subscription/add": {
+            "post": {
+                "summary": "Add new subscription",
+                "description": "Add new subscription",
+                "operationId": "3707083aa69815d21d32154463f0e694",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/admin/subscription/edit": {
+            "post": {
+                "summary": "Edit subscription by id",
+                "description": "Edit subscription",
+                "operationId": "194dcef445f1304e4b43cc323ca933f4",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/admin/subscription/delete": {
+            "delete": {
+                "summary": "delete subscription by id",
+                "description": "delete subscription",
+                "operationId": "377c34648bd16bfdbbaed7c9711a0705",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
         "/api/auth/login": {
             "post": {
                 "summary": "Sign in",
@@ -190,11 +344,139 @@
                 }
             }
         },
+        "/api/auth/reset-password-by-token": {
+            "post": {
+                "summary": "Update Reset password by token",
+                "description": "Update Reset password by token if you forgot password",
+                "operationId": "b26d283e6fa274a83d721bc45940f172",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "token",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "asdfasdfasasdf"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
         "/api/auth/logout": {
             "post": {
                 "summary": "Sign out",
                 "description": "Logout by token",
                 "operationId": "df9bdc6c7a6d9f20b983526b2ec0f698",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/payment/system/list": {
+            "post": {
+                "summary": "Payment system list",
+                "description": "Payment system list",
+                "operationId": "3b961b17cb63c100f2c26c7b0e10b917",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/payment/subscription/buy": {
+            "post": {
+                "summary": "Buy subscription",
+                "description": "Buy subscription",
+                "operationId": "d293b1abce82ef89a0a52c12fcf5ea4c",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/payment/subscription/show": {
+            "post": {
+                "summary": "Buy subscription",
+                "description": "Buy subscription",
+                "operationId": "f51062c0890af3834069080a2150d53b",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "header",
+                        "description": "Accept:application/json;"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/api/payment/subscription/cancel": {
+            "post": {
+                "summary": "Cancel subscription",
+                "description": "Cancel subscription",
+                "operationId": "b980595ca756a59e9fc38f16a4f37ea8",
                 "parameters": [
                     {
                         "name": "",

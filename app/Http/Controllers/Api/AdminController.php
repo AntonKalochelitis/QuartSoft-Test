@@ -10,15 +10,17 @@ use App\Http\Requests\Admin\DeleteFromSubscriptionListRequest;
 use App\Http\Requests\Admin\EditSubscriptionRequest;
 use App\Http\Requests\Admin\ShowAdminListRequest;
 use App\Http\Requests\Admin\ShowSubscriptionListRequest;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class AdminController extends ApiController
 {
     /**
-     * @OA\Post(
-     *  path="/api/payment/system/list",
-     *  summary="Payment system list",
-     *  description="Payment system list",
+     * @OA\Get(
+     *  path="/api/admin/list",
+     *  summary="Admin users list",
+     *  description="Admin users list",
      *  @OA\Parameter(
      *     in="header",
      *     name="",
@@ -45,14 +47,14 @@ class AdminController extends ApiController
     }
 
     /**
-     * @OA\Post(
-     *  path="/api/payment/system/list",
+     * @OA\Delete(
+     *  path="/api/admin/delete",
      *  summary="Payment system list",
      *  description="Payment system list",
      *  @OA\Parameter(
      *     in="header",
      *     name="",
-     *     description="Accept:application/json;",
+     *     description="Accept:application/json;"
      *  ),
      *  @OA\Response(
      *    response="200",
@@ -75,10 +77,10 @@ class AdminController extends ApiController
     }
 
     /**
-     * @OA\Post(
-     *  path="/api/admin/list",
-     *  summary="Admin users list",
-     *  description="Admin users list",
+     * @OA\Get(
+     *  path="/api/admin/subscription/list",
+     *  summary="Get subscription list",
+     *  description="Get subscription list",
      *  @OA\Parameter(
      *     in="header",
      *     name="",
@@ -114,6 +116,14 @@ class AdminController extends ApiController
      *     name="",
      *     description="Accept:application/json;",
      *  ),
+     *  @OA\RequestBody(
+     *      required=true,
+     *      description="Pass user credentials",
+     *      @OA\JsonContent(
+     *          required={"user_admin_id"},
+     *          @OA\Property(property="user_admin_id", type="integer", format="text", example="11"),
+     *      ),
+     *  ),
      *  @OA\Response(
      *    response="200",
      *    description="Success response"
@@ -127,7 +137,14 @@ class AdminController extends ApiController
     public function addToAdminList(AddToAdminListRequest $request): JsonResponse
     {
         try {
-            return $this->response();
+            /** @var User $user */
+            $user = $request->user();
+
+            if (!$user->isAdmin()) {
+                throw new UnprocessableEntityHttpException(__('admin.is_not_admin'));
+            }
+
+            return $this->response(['admin' => $user->addUserAdmin($user->id)]);
         } catch (\Exception $e) {
 
             throw $e;
@@ -195,7 +212,7 @@ class AdminController extends ApiController
     }
 
     /**
-     * @OA\Post(
+     * @OA\Delete(
      *  path="/api/admin/subscription/delete",
      *  summary="delete subscription by id",
      *  description="delete subscription",

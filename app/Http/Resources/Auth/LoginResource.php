@@ -21,6 +21,7 @@ class LoginResource extends JsonResource
         }
 
         return [
+            'user_id' => $request->user()->id,
             'access_token' => $this->plainTextToken,
             'token_type' => 'Bearer',
             'email_verified_at' => $request->user()->email_verified_at

@@ -18,6 +18,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string remember_token
  * @property string created_at
  * @property string updated_at
+ *
+ * @property UsersAdmin usersAdmin
  */
 class User extends Authenticatable
 {
@@ -55,4 +57,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin(): bool
+    {
+        return !is_null($this->usersAdmin);
+    }
+
+    public function usersAdmin()
+    {
+        return $this->hasOne(UsersAdmin::class, 'user_id', 'id');
+    }
+
+    public function addUserAdmin(int $id): bool
+    {
+        try {
+            UsersAdmin::create([
+                'user_id' => $id
+            ]);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
 }

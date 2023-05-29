@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('list', [AdminController::class, 'showAdminList'])
             ->name('admin/list');
 
-        Route::put('add', [AdminController::class, 'addToAdminList'])
+        Route::post('add', [AdminController::class, 'addToAdminList'])
             ->name('admin/add');
 
         Route::delete('delete', [AdminController::class, 'deleteFromAdminList'])
