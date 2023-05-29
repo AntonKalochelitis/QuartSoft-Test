@@ -10,6 +10,25 @@ use Illuminate\Http\Request;
 
 class PaymentController extends ApiController
 {
+    /**
+     * @OA\Post(
+     *  path="/api/payment/system/list",
+     *  summary="Payment system list",
+     *  description="Payment system list",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
+     * @param SystemListRequest $request
+     * @return JsonResponse
+     */
     public function showSystemList(SystemListRequest $request): JsonResponse
     {
         return $this->response(
@@ -17,21 +36,70 @@ class PaymentController extends ApiController
         );
     }
 
+    /**
+     * @OA\Post(
+     *  path="/api/payment/subscription/buy",
+     *  summary="Buy subscription",
+     *  description="Buy subscription",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
+     * @return JsonResponse
+     */
     public function subscriptionBuy(): JsonResponse
     {
         return $this->response();
     }
 
+    /**
+     * @OA\Post(
+     *  path="/api/payment/subscription/show",
+     *  summary="Buy subscription",
+     *  description="Buy subscription",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
+     * @return JsonResponse
+     */
     public function subscriptionShow(): JsonResponse
     {
         return $this->response();
     }
 
-//    public function subscriptionBuy(): JsonResponse
-//    {
-//        return $this->response();
-//    }
-
+    /**
+     * @OA\Post(
+     *  path="/api/payment/subscription/cancel",
+     *  summary="Cancel subscription",
+     *  description="Cancel subscription",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
+     * @return JsonResponse
+     */
     public function subscriptionCancel(): JsonResponse
     {
         return $this->response();

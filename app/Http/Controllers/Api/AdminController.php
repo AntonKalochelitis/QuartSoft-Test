@@ -15,6 +15,21 @@ use Illuminate\Http\JsonResponse;
 class AdminController extends ApiController
 {
     /**
+     * @OA\Post(
+     *  path="/api/payment/system/list",
+     *  summary="Payment system list",
+     *  description="Payment system list",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
      * @param ShowAdminListRequest $request
      * @return JsonResponse
      * @throws \Exception
@@ -30,6 +45,21 @@ class AdminController extends ApiController
     }
 
     /**
+     * @OA\Post(
+     *  path="/api/payment/system/list",
+     *  summary="Payment system list",
+     *  description="Payment system list",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
      * @param DeleteFromAdminListRequest $request
      * @return JsonResponse
      * @throws \Exception
@@ -45,6 +75,21 @@ class AdminController extends ApiController
     }
 
     /**
+     * @OA\Post(
+     *  path="/api/admin/list",
+     *  summary="Admin users list",
+     *  description="Admin users list",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
      * @param ShowSubscriptionListRequest $request
      * @return JsonResponse
      * @throws \Exception
@@ -60,6 +105,21 @@ class AdminController extends ApiController
     }
 
     /**
+     * @OA\Post(
+     *  path="/api/admin/add",
+     *  summary="Add user to admin list",
+     *  description="Add user to admin list",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
      * @param AddToAdminListRequest $request
      * @return JsonResponse
      * @throws \Exception
@@ -75,6 +135,21 @@ class AdminController extends ApiController
     }
 
     /**
+     * @OA\Post(
+     *  path="/api/admin/subscription/add",
+     *  summary="Add new subscription",
+     *  description="Add new subscription",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
      * @param AddToSubscriptionListRequest $request
      * @return JsonResponse
      * @throws \Exception
@@ -90,7 +165,20 @@ class AdminController extends ApiController
     }
 
     /**
-     *
+     * @OA\Post(
+     *  path="/api/admin/subscription/edit",
+     *  summary="Edit subscription by id",
+     *  description="Edit subscription",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
      *
      * @param EditSubscriptionRequest $request
      * @return JsonResponse
@@ -107,6 +195,21 @@ class AdminController extends ApiController
     }
 
     /**
+     * @OA\Post(
+     *  path="/api/admin/subscription/delete",
+     *  summary="delete subscription by id",
+     *  description="delete subscription",
+     *  @OA\Parameter(
+     *     in="header",
+     *     name="",
+     *     description="Accept:application/json;",
+     *  ),
+     *  @OA\Response(
+     *    response="200",
+     *    description="Success response"
+     *  )
+     * )
+     *
      * @param DeleteFromSubscriptionListRequest $request
      * @return JsonResponse
      * @throws \Exception
