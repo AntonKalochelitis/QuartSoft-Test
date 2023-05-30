@@ -51,7 +51,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('add', [AdminController::class, 'addToAdminList'])
             ->name('admin/add');
 
-        Route::delete('delete', [AdminController::class, 'deleteFromAdminList'])
+        Route::post('delete', [AdminController::class, 'deleteFromAdminList'])
             ->name('admin/delete');
 
         Route::get('subscription/list', [AdminController::class, 'showSubscriptionList'])

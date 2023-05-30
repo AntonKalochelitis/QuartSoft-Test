@@ -80,4 +80,17 @@ class User extends Authenticatable
 
         return true;
     }
+
+    public function deleteUserAdmin(int $id):bool
+    {
+        try {
+            UsersAdmin::destroy([
+                'user_id' => $id
+            ]);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
 }

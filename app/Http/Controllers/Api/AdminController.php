@@ -42,13 +42,12 @@ class AdminController extends ApiController
         try {
             return $this->response(ShowAdminListResource::make($request));
         } catch (\Exception $e) {
-
             throw $e;
         }
     }
 
     /**
-     * @OA\Delete(
+     * @OA\Post(
      *  path="/api/admin/delete",
      *  summary="Payment system list",
      *  description="Payment system list",
@@ -70,7 +69,14 @@ class AdminController extends ApiController
     public function deleteFromAdminList(DeleteFromAdminListRequest $request): JsonResponse
     {
         try {
-            return $this->response();
+            /** @var User $user */
+            $user = $request->user();
+
+            if (!$user->isAdmin()) {
+                throw new UnprocessableEntityHttpException(__('admin.is_not_admin'));
+            }
+
+            return $this->response(['admin_delete' => $user->deleteUserAdmin($request->user_admin_id)]);
         } catch (\Exception $e) {
 
             throw $e;
@@ -145,7 +151,7 @@ class AdminController extends ApiController
                 throw new UnprocessableEntityHttpException(__('admin.is_not_admin'));
             }
 
-            return $this->response(['admin' => $user->addUserAdmin($request->user_admin_id)]);
+            return $this->response(['admin_add' => $user->addUserAdmin($request->user_admin_id)]);
         } catch (\Exception $e) {
 
             throw $e;
