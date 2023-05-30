@@ -9,13 +9,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property int id
  * @property string name
  * @property float price
- * @property integer available_publication
+ * @property integer count_available_publication
  * @property boolean active
  * @property string created_at
  * @property string updated_at
  */
 class Subscription extends Model
 {
+    public const ACTIVE = 1;
+    public const NOACTIVE = 0;
+
     use HasFactory;
 
     /**
@@ -27,7 +30,7 @@ class Subscription extends Model
         'id',
         'name',
         'price',
-        'available_publication',
+        'count_available_publication',
         'active',
         'created_at',
         'updated_at'

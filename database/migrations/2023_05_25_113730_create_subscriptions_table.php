@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->decimal('price')->nullable();
-            $table->integer('available_publication')->default(0);
+            $table->integer('count_available_publication')->default(0);
             $table->boolean('active')->default(1);
             $table->timestamps();
 
