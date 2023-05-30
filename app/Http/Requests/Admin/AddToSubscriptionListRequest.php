@@ -9,7 +9,6 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property float price
  * @property int count_available_publication
  * @property bool active
- *
  */
 class AddToSubscriptionListRequest extends FormRequest
 {

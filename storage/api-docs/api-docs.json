@@ -181,10 +181,10 @@
             }
         },
         "/api/admin/subscription/delete": {
-            "delete": {
+            "post": {
                 "summary": "delete subscription by id",
                 "description": "delete subscription",
-                "operationId": "377c34648bd16bfdbbaed7c9711a0705",
+                "operationId": "15fc5f5dc876ae22a600d20bc4d6a43e",
                 "parameters": [
                     {
                         "name": "",
@@ -192,6 +192,26 @@
                         "description": "Accept:application/json;"
                     }
                 ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "subscription_id"
+                                ],
+                                "properties": {
+                                    "subscription_id": {
+                                        "type": "integer",
+                                        "example": "11"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Success response"

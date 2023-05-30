@@ -43,6 +43,13 @@ class AdminController extends ApiController
     public function showAdminList(ShowAdminListRequest $request): JsonResponse
     {
         try {
+            /** @var User $user */
+            $user = $request->user();
+
+            if (!$user->isAdmin()) {
+                throw new UnprocessableEntityHttpException(__('admin.is_not_admin'));
+            }
+
             return $this->response(ShowAdminListResource::make($request));
         } catch (\Exception $e) {
             throw $e;
@@ -196,6 +203,13 @@ class AdminController extends ApiController
         DB::beginTransaction();
 
         try {
+            /** @var User $user */
+            $user = $request->user();
+
+            if (!$user->isAdmin()) {
+                throw new UnprocessableEntityHttpException(__('admin.is_not_admin'));
+            }
+
             Subscription::create([
                 'name' => $request->name,
                 'price' => $request->price,
@@ -236,7 +250,16 @@ class AdminController extends ApiController
     public function editSubscription(EditSubscriptionRequest $request): JsonResponse
     {
         try {
-            return $this->response();
+            /** @var User $user */
+            $user = $request->user();
+
+            if (!$user->isAdmin()) {
+                throw new UnprocessableEntityHttpException(__('admin.is_not_admin'));
+            }
+
+
+
+            return $this->response(Subscription::editSubscription($request));
         } catch (\Exception $e) {
 
             throw $e;
@@ -244,7 +267,7 @@ class AdminController extends ApiController
     }
 
     /**
-     * @OA\Delete(
+     * @OA\Post(
      *  path="/api/admin/subscription/delete",
      *  summary="delete subscription by id",
      *  description="delete subscription",
@@ -252,6 +275,14 @@ class AdminController extends ApiController
      *     in="header",
      *     name="",
      *     description="Accept:application/json;",
+     *  ),
+     *  @OA\RequestBody(
+     *      required=true,
+     *      description="Pass user credentials",
+     *      @OA\JsonContent(
+     *          required={"subscription_id"},
+     *          @OA\Property(property="subscription_id", type="integer", example="11"),
+     *      ),
      *  ),
      *  @OA\Response(
      *    response="200",
@@ -266,9 +297,15 @@ class AdminController extends ApiController
     public function deleteFromSubscriptionList(DeleteFromSubscriptionListRequest $request): JsonResponse
     {
         try {
-            return $this->response();
-        } catch (\Exception $e) {
+            /** @var User $user */
+            $user = $request->user();
 
+            if (!$user->isAdmin()) {
+                throw new UnprocessableEntityHttpException(__('admin.is_not_admin'));
+            }
+
+            return $this->response(['admin_delete' => Subscription::deleteSubscription($request->subscription_id)]);
+        } catch (\Exception $e) {
             throw $e;
         }
     }

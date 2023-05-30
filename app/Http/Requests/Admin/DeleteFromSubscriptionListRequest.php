@@ -4,6 +4,9 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property int subscription_id
+ */
 class DeleteFromSubscriptionListRequest extends FormRequest
 {
     /**
@@ -11,7 +14,7 @@ class DeleteFromSubscriptionListRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +25,7 @@ class DeleteFromSubscriptionListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'subscription_id' => 'required|integer',
         ];
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Http\Requests\Admin\EditSubscriptionRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property int id
@@ -35,4 +37,46 @@ class Subscription extends Model
         'created_at',
         'updated_at'
     ];
+
+    public static function editSubscription(EditSubscriptionRequest $request): bool
+    {
+        DB::beginTransaction();
+
+        try {
+            /** @var Subscription $object */
+            $object = (new Subscription)->find($request->id);
+            $object->name = $request->name;
+            $object->price = $request->price;
+            $object->count_available_publication = $request->count_available_publication;
+            $object->active = $request->active;
+            $object->save();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function deleteSubscription(int $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            Subscription::destroy([
+                'id' => $id
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return false;
+        }
+
+        return true;
+    }
 }

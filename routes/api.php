@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('subscription/edit', [AdminController::class, 'editSubscription'])
             ->name('admin/subscription/edit');
 
-        Route::delete('subscription/delete', [AdminController::class, 'deleteFromSubscriptionList'])
+        Route::post('subscription/delete', [AdminController::class, 'deleteFromSubscriptionList'])
             ->name('admin/subscription/delete');
     });
 
