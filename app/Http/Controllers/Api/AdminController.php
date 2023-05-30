@@ -10,6 +10,7 @@ use App\Http\Requests\Admin\DeleteFromSubscriptionListRequest;
 use App\Http\Requests\Admin\EditSubscriptionRequest;
 use App\Http\Requests\Admin\ShowAdminListRequest;
 use App\Http\Requests\Admin\ShowSubscriptionListRequest;
+use App\Http\Resources\Admin\ShowAdminListResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -39,7 +40,7 @@ class AdminController extends ApiController
     public function showAdminList(ShowAdminListRequest $request): JsonResponse
     {
         try {
-            return $this->response();
+            return $this->response(ShowAdminListResource::make($request));
         } catch (\Exception $e) {
 
             throw $e;
@@ -144,7 +145,7 @@ class AdminController extends ApiController
                 throw new UnprocessableEntityHttpException(__('admin.is_not_admin'));
             }
 
-            return $this->response(['admin' => $user->addUserAdmin($user->id)]);
+            return $this->response(['admin' => $user->addUserAdmin($request->user_admin_id)]);
         } catch (\Exception $e) {
 
             throw $e;
