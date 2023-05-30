@@ -28,10 +28,10 @@
             }
         },
         "/api/admin/delete": {
-            "delete": {
+            "post": {
                 "summary": "Payment system list",
                 "description": "Payment system list",
-                "operationId": "0ac954fef576a42938d16b15c240eb62",
+                "operationId": "534a57ec9e11485e23c252d6c7c91143",
                 "parameters": [
                     {
                         "name": "",
@@ -117,6 +117,43 @@
                         "description": "Accept:application/json;"
                     }
                 ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "count_available_publication",
+                                    "active"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "subscription"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": "250.50"
+                                    },
+                                    "count_available_publication": {
+                                        "type": "integer",
+                                        "example": "100"
+                                    },
+                                    "active": {
+                                        "type": "boolean",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Success response"

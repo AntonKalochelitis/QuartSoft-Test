@@ -57,7 +57,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('subscription/list', [AdminController::class, 'showSubscriptionList'])
             ->name('admin/subscription/list');
 
-        Route::put('subscription/add', [AdminController::class, 'addToSubscriptionList'])
+        Route::post('subscription/add', [AdminController::class, 'addToSubscriptionList'])
             ->name('admin/subscription/add');
 
         Route::post('subscription/edit', [AdminController::class, 'editSubscription'])

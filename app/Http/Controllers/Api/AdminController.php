@@ -12,8 +12,10 @@ use App\Http\Requests\Admin\ShowAdminListRequest;
 use App\Http\Requests\Admin\ShowSubscriptionListRequest;
 use App\Http\Resources\Admin\ShowAdminListResource;
 use App\Http\Resources\Admin\ShowSubscriptionListResource;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class AdminController extends ApiController
@@ -168,6 +170,17 @@ class AdminController extends ApiController
      *     name="",
      *     description="Accept:application/json;",
      *  ),
+     *  @OA\RequestBody(
+     *      required=true,
+     *      description="Pass user credentials",
+     *      @OA\JsonContent(
+     *          required={"name","price","count_available_publication","active"},
+     *          @OA\Property(property="name", type="string", format="text", example="subscription"),
+     *          @OA\Property(property="price", type="float", example="250.50"),
+     *          @OA\Property(property="count_available_publication", type="integer", example="100"),
+     *          @OA\Property(property="active", type="boolean", example="1"),
+     *      ),
+     *  ),
      *  @OA\Response(
      *    response="200",
      *    description="Success response"
@@ -180,9 +193,21 @@ class AdminController extends ApiController
      */
     public function addToSubscriptionList(AddToSubscriptionListRequest $request): JsonResponse
     {
+        DB::beginTransaction();
+
         try {
-            return $this->response();
+            Subscription::create([
+                'name' => $request->name,
+                'price' => $request->price,
+                'count_available_publication' => $request->count_available_publication,
+                'active' => $request->active
+            ]);
+
+            DB::commit();
+
+            return $this->response($request);
         } catch (\Exception $e) {
+            DB::rollBack();
 
             throw $e;
         }

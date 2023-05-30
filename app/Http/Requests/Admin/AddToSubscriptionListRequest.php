@@ -4,6 +4,13 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property string name
+ * @property float price
+ * @property int count_available_publication
+ * @property bool active
+ *
+ */
 class AddToSubscriptionListRequest extends FormRequest
 {
     /**
@@ -11,7 +18,7 @@ class AddToSubscriptionListRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +29,10 @@ class AddToSubscriptionListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'count_available_publication' => 'required|string',
+            'active' => 'required|boolean',
         ];
     }
 }
